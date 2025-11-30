@@ -1,0 +1,7 @@
+# FastAPI server dependencies
+# FastAPI: Modern, fast web framework for building APIs
+fastapi==0.109.0
+
+# Uvicorn: ASGI server to run FastAPI
+uvicorn[standard]==0.27.0
+
