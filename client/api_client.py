@@ -22,14 +22,14 @@ import requests  # This library helps us make HTTP requests
 # =============================================================================
 # Uncomment ONE of these lines to choose which API to use:
 
-# Option 1: External test API (default)
-API_URL = "https://api.restful-api.dev/objects"
+# Option 1: External test API
+# API_URL = "https://api.restful-api.dev/objects"
 
 # Option 2: Your local FastAPI server (run: python server/main.py)
 # API_URL = "http://localhost:8000/objects"
 
-# Option 3: Your Render deployment (replace with your actual URL)
-# API_URL = "https://your-app-name.onrender.com/objects"
+# Option 3: Your Render deployment (default - YOUR API!)
+API_URL = "https://api-playground-zita.onrender.com/objects"
 
 # =============================================================================
 
