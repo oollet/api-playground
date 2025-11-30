@@ -163,6 +163,14 @@ export default function ApiPlayground() {
     const validationError = validateJson(value);
     setJsonError(validationError);
   }
+  
+  /**
+   * Type-safe helper to check if button should be disabled due to JSON errors
+   * Returns true if there's JSON data AND it has validation errors
+   */
+  function hasJsonError(): boolean {
+    return formData.trim().length > 0 && jsonError !== null;
+  }
 
   // ============================================
   // API HANDLER FUNCTIONS
@@ -582,7 +590,7 @@ export default function ApiPlayground() {
                       </div>
                       <Button
                         onClick={handleCreate}
-                        disabled={loading || (formData.trim() && jsonError !== null)}
+                        disabled={loading || hasJsonError()}
                         className="bg-blue-500 hover:bg-blue-600"
                       >
                         {loading ? "Creating..." : "POST - Create Object"}
@@ -637,7 +645,7 @@ export default function ApiPlayground() {
                       </div>
                       <Button
                         onClick={handleUpdate}
-                        disabled={loading || (formData.trim() && jsonError !== null)}
+                        disabled={loading || hasJsonError()}
                         className="bg-amber-500 hover:bg-amber-600"
                       >
                         {loading ? "Updating..." : "PUT - Replace Object"}
@@ -692,7 +700,7 @@ export default function ApiPlayground() {
                       </div>
                       <Button
                         onClick={handlePatch}
-                        disabled={loading || (formData.trim() && jsonError !== null)}
+                        disabled={loading || hasJsonError()}
                         className="bg-purple-500 hover:bg-purple-600"
                       >
                         {loading ? "Patching..." : "PATCH - Partial Update"}
