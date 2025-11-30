@@ -6,9 +6,9 @@ Learn how to **create and consume REST APIs** with Python and JavaScript. Perfec
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| **API Server** | [api-playground-zita.onrender.com](https://api-playground-zita.onrender.com) | FastAPI backend |
-| **API Docs** | [/docs](https://api-playground-zita.onrender.com/docs) | Interactive Swagger docs |
-| **Web App** | *Deploy to Vercel* | Next.js frontend |
+| **🌐 Web App** | [api-playground-tawny.vercel.app](https://api-playground-tawny.vercel.app) | Interactive Next.js playground |
+| **🚀 API Server** | [api-playground-zita.onrender.com](https://api-playground-zita.onrender.com) | FastAPI backend |
+| **📚 API Docs** | [/docs](https://api-playground-zita.onrender.com/docs) | Interactive Swagger docs |
 
 ## 🏗️ Architecture
 
@@ -157,8 +157,11 @@ git push origin main
 # Then on Render: New → Blueprint → Connect repo
 ```
 
-### Web App → Vercel
+### Web App → Vercel ✅
 
+**Already deployed!** Visit: [api-playground-tawny.vercel.app](https://api-playground-tawny.vercel.app)
+
+To deploy your own:
 1. Go to [vercel.com/new](https://vercel.com/new)
 2. Import `oollet/api-playground`
 3. Set **Root Directory**: `web`
@@ -210,9 +213,9 @@ graph LR
 
 - [x] Python API client
 - [x] FastAPI server
-- [x] Deploy to Render
+- [x] Deploy server to Render
 - [x] Next.js web app with shadcn/ui
-- [ ] Deploy web app to Vercel
+- [x] Deploy web app to Vercel
 - [ ] Add authentication
 - [ ] Connect to real database
 
