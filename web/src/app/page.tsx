@@ -115,6 +115,9 @@ export default function ApiPlayground() {
   
   // Success message (if any)
   const [success, setSuccess] = useState<string | null>(null);
+  
+  // JSON validation error (for the data input field)
+  const [jsonError, setJsonError] = useState<string | null>(null);
 
   // ============================================
   // LOAD DATA ON PAGE LOAD
@@ -123,6 +126,43 @@ export default function ApiPlayground() {
   useEffect(() => {
     handleGetAll();
   }, []); // Empty array means "run once when page loads"
+
+  // ============================================
+  // JSON VALIDATION FUNCTION
+  // Validates JSON input in real-time
+  // ============================================
+  
+  /**
+   * Validates JSON string
+   * Returns null if valid, error message if invalid
+   */
+  function validateJson(jsonString: string): string | null {
+    // If empty, it's valid (optional field)
+    if (!jsonString.trim()) {
+      return null;
+    }
+    
+    try {
+      // Try to parse the JSON
+      JSON.parse(jsonString);
+      return null; // Valid JSON!
+    } catch (error) {
+      // Invalid JSON - return helpful error message
+      if (error instanceof SyntaxError) {
+        return `Invalid JSON: ${error.message}`;
+      }
+      return "Invalid JSON format";
+    }
+  }
+  
+  /**
+   * Handles JSON input change with validation
+   */
+  function handleJsonChange(value: string) {
+    setFormData(value);
+    const validationError = validateJson(value);
+    setJsonError(validationError);
+  }
 
   // ============================================
   // API HANDLER FUNCTIONS
@@ -192,6 +232,12 @@ export default function ApiPlayground() {
       return;
     }
     
+    // Check for JSON validation errors
+    if (jsonError) {
+      setError("Please fix JSON errors before submitting");
+      return;
+    }
+    
     setLoading(true);
     setError(null);
     setLastMethod("POST");
@@ -219,6 +265,7 @@ export default function ApiPlayground() {
       handleGetAll(); // Refresh the list
       setFormName("");
       setFormData("");
+      setJsonError(null); // Clear JSON error when form is reset
     } else {
       setError(result.error ?? "Failed to create object");
     }
@@ -232,6 +279,12 @@ export default function ApiPlayground() {
   async function handleUpdate() {
     if (!formId.trim() || !formName.trim()) {
       setError("Please enter both ID and name");
+      return;
+    }
+    
+    // Check for JSON validation errors
+    if (jsonError) {
+      setError("Please fix JSON errors before submitting");
       return;
     }
     
@@ -272,6 +325,12 @@ export default function ApiPlayground() {
   async function handlePatch() {
     if (!formId.trim()) {
       setError("Please enter an ID");
+      return;
+    }
+    
+    // Check for JSON validation errors (only if data is provided)
+    if (formData.trim() && jsonError) {
+      setError("Please fix JSON errors before submitting");
       return;
     }
     
@@ -503,13 +562,27 @@ export default function ApiPlayground() {
                           id="postData"
                           placeholder={'{"price": 99.99, "color": "blue"}'}
                           value={formData}
-                          onChange={(e) => setFormData(e.target.value)}
-                          className="font-mono text-sm"
+                          onChange={(e) => handleJsonChange(e.target.value)}
+                          className={`font-mono text-sm ${
+                            jsonError ? "border-red-500 focus-visible:ring-red-500" : ""
+                          }`}
                         />
+                        {jsonError && (
+                          <p className="text-sm text-red-500 flex items-center gap-1">
+                            <span>⚠️</span>
+                            {jsonError}
+                          </p>
+                        )}
+                        {!jsonError && formData.trim() && (
+                          <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-1">
+                            <span>✓</span>
+                            Valid JSON
+                          </p>
+                        )}
                       </div>
                       <Button
                         onClick={handleCreate}
-                        disabled={loading}
+                        disabled={loading || (formData.trim() && jsonError !== null)}
                         className="bg-blue-500 hover:bg-blue-600"
                       >
                         {loading ? "Creating..." : "POST - Create Object"}
@@ -544,13 +617,27 @@ export default function ApiPlayground() {
                           id="putData"
                           placeholder={'{"price": 149.99}'}
                           value={formData}
-                          onChange={(e) => setFormData(e.target.value)}
-                          className="font-mono text-sm"
+                          onChange={(e) => handleJsonChange(e.target.value)}
+                          className={`font-mono text-sm ${
+                            jsonError ? "border-red-500 focus-visible:ring-red-500" : ""
+                          }`}
                         />
+                        {jsonError && (
+                          <p className="text-sm text-red-500 flex items-center gap-1">
+                            <span>⚠️</span>
+                            {jsonError}
+                          </p>
+                        )}
+                        {!jsonError && formData.trim() && (
+                          <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-1">
+                            <span>✓</span>
+                            Valid JSON
+                          </p>
+                        )}
                       </div>
                       <Button
                         onClick={handleUpdate}
-                        disabled={loading}
+                        disabled={loading || (formData.trim() && jsonError !== null)}
                         className="bg-amber-500 hover:bg-amber-600"
                       >
                         {loading ? "Updating..." : "PUT - Replace Object"}
@@ -585,13 +672,27 @@ export default function ApiPlayground() {
                           id="patchData"
                           placeholder={'{"price": 79.99}'}
                           value={formData}
-                          onChange={(e) => setFormData(e.target.value)}
-                          className="font-mono text-sm"
+                          onChange={(e) => handleJsonChange(e.target.value)}
+                          className={`font-mono text-sm ${
+                            jsonError ? "border-red-500 focus-visible:ring-red-500" : ""
+                          }`}
                         />
+                        {jsonError && (
+                          <p className="text-sm text-red-500 flex items-center gap-1">
+                            <span>⚠️</span>
+                            {jsonError}
+                          </p>
+                        )}
+                        {!jsonError && formData.trim() && (
+                          <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-1">
+                            <span>✓</span>
+                            Valid JSON
+                          </p>
+                        )}
                       </div>
                       <Button
                         onClick={handlePatch}
-                        disabled={loading}
+                        disabled={loading || (formData.trim() && jsonError !== null)}
                         className="bg-purple-500 hover:bg-purple-600"
                       >
                         {loading ? "Patching..." : "PATCH - Partial Update"}
