@@ -12,14 +12,26 @@ REST API Basics:
 - PATCH  = Update existing data (change only some fields)
 - DELETE = Remove data
 
-The API we're using: https://api.restful-api.dev/objects
-It's a free test API that simulates a product database.
+You can switch between different API servers below!
 """
 
 import requests  # This library helps us make HTTP requests
 
-# The base URL of the API we're working with
+# =============================================================================
+# 🔧 CONFIGURE YOUR API URL HERE
+# =============================================================================
+# Uncomment ONE of these lines to choose which API to use:
+
+# Option 1: External test API (default)
 API_URL = "https://api.restful-api.dev/objects"
+
+# Option 2: Your local FastAPI server (run: python server/main.py)
+# API_URL = "http://localhost:8000/objects"
+
+# Option 3: Your Render deployment (replace with your actual URL)
+# API_URL = "https://your-app-name.onrender.com/objects"
+
+# =============================================================================
 
 
 def get_all_objects():
