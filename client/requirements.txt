@@ -1,0 +1,4 @@
+# Python dependencies for API client
+# requests: Library for making HTTP requests to APIs
+requests==2.31.0
+
